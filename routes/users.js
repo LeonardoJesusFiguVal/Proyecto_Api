@@ -1,17 +1,14 @@
 var express= require('express');
+const usersServices= require("../services/serviceUsers");
 
 const router= express.Router();
 
-router.get('/', (req, res)=> {
-    const {limit, offset}= req.query;
-    if (limit && offset) {
-        res.json({
-            limit,
-            offset
-        });
-    }
-    else {
-        res.send("No has pasado los parámetros adecuados");
+router.get('/', async (req, res)=> {
+    try {
+        const users= await usersServices.getUsers(req, res);
+        res.json(users);
+    } catch (error) {
+        console.log(error);
     }
 });
 
